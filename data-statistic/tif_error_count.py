@@ -3,44 +3,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-# Đường dẫn đến tệp TIFF
 file_path = '../INPUT_DATA/Hima/2019040118/AWS_20190401180000.tif'
 
-# Giá trị không hợp lệ
+# List invalid value
 invalid_values = [-np.inf, -9999, np.nan]
 
-# Đọc tệp TIFF
+# Read the tif file
 with rasterio.open(file_path) as src:
-    data = src.read(1)  # Đọc băng đầu tiên
+    data = src.read(1)
 
-# Tạo một hình vẽ
+# Create a canvas
 fig, ax = plt.subplots(figsize=(15, 6))
 
-# Vẽ hình chữ nhật cho từng ô
+# Draw a rect for each pixel
 for row in range(data.shape[0]):
     for col in range(data.shape[1]):
         value = data[row, col]
         
-        # Chọn màu sắc dựa trên giá trị
         if value in invalid_values:
-            color = 'white'  # Màu trắng cho giá trị không hợp lệ
+            color = 'white'
         elif value > 0:
-            color = 'blue'   # Màu xanh cho giá trị > 0
+            color = 'blue'
         elif value == 0:
-            color = 'orange' # Màu cam cho giá trị = 0
+            color = 'orange'
         
-        # Vẽ hình chữ nhật
         rect = patches.Rectangle((col, row), 1, 1, facecolor=color, edgecolor='none')
         ax.add_patch(rect)
 
-# Cài đặt trục
 ax.set_xlim(0, data.shape[1])
 ax.set_ylim(0, data.shape[0])
-ax.invert_yaxis()  # Đảo ngược trục Y để phù hợp với hệ tọa độ của ảnh
+ax.invert_yaxis() 
 
 ax.axis('off')
 
-# Lưu biểu đồ vào tệp hình ảnh
 plt.savefig('output_image.png', bbox_inches='tight', pad_inches=0)
-plt.close()  # Đóng hình để giải phóng tài nguyên
+plt.close()
 

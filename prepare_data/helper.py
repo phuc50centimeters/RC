@@ -4,15 +4,6 @@ import os
 import glob
 
 def get_subdirectories(directory):
-    """
-    Lấy danh sách các thư mục con trong thư mục được chỉ định.
-
-    Args:
-        directory (str): Đường dẫn đến thư mục cha.
-
-    Returns:
-        list: Danh sách tên các thư mục con.
-    """
     subdirectories = [name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))]
     return sorted(subdirectories)
 
